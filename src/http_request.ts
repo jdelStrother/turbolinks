@@ -1,5 +1,5 @@
 import { Location } from "./location"
-import { dispatch } from "./util"
+import { dispatch, getNonce } from "./util"
 
 export type StatusCode = number
 
@@ -116,11 +116,15 @@ export class HttpRequest {
     const xhr = this.xhr = new XMLHttpRequest
     const referrer = this.referrer ? this.referrer.absoluteURL : ""
     const timeout = HttpRequest.timeout * 1000
+    const nonce = getNonce()
 
     xhr.open("GET", this.url, true)
     xhr.timeout = timeout
     xhr.setRequestHeader("Accept", "text/html, application/xhtml+xml")
     xhr.setRequestHeader("Turbolinks-Referrer", referrer)
+    if (nonce) {
+      xhr.setRequestHeader("Turbolinks-Nonce", nonce)
+    }
     xhr.onprogress = this.requestProgressed
     xhr.onload = this.requestLoaded
     xhr.onerror = this.requestFailed
