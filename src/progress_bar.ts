@@ -1,4 +1,4 @@
-import { unindent } from "./util"
+import { unindent, getNonce } from "./util"
 
 export class ProgressBar {
   static animationDuration = 300/*ms*/
@@ -102,8 +102,12 @@ export class ProgressBar {
 
   createStylesheetElement() {
     const element = document.createElement("style")
+    const nonce = getNonce()
     element.type = "text/css"
     element.textContent = ProgressBar.defaultCSS
+    if (nonce) {
+      element.nonce = nonce
+    }
     return element
   }
 

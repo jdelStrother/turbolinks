@@ -93,3 +93,8 @@ export function uuid() {
     }
   }).join("")
 }
+
+export function getNonce() {
+  const el = document.querySelector("meta[name='csp-nonce']")
+  return el ? el.getAttribute("content") : null
+}
